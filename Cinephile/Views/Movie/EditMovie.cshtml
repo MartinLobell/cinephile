@@ -1,0 +1,130 @@
+﻿@model Cinephile.Models.MovieModels
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Movies</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="~/Content/stylesheet.css">
+    </head>
+    <body>
+        <header>
+            <h1>Cenophile</h1>
+            <h2><em>Redigera filmen</em></h2>
+        </header>
+        <main>
+            <div class="movieBox">
+                 @using (Html.BeginForm())
+                 {
+                <div class="topDiv">
+                    <table>
+                        <tr>
+                            <strong>Redigera film</strong>
+                        </tr>
+                        <tr>
+                            <td>
+                                Titel:
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.TextBoxFor(m => m.Title)
+                                    @Html.ValidationMessageFor(m => m.Title)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Beskrivning:
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.TextBoxFor(m => m.Description)
+                                    @Html.ValidationMessageFor(m => m.Description)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Längd:
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.TextBoxFor(m => m.Length)
+                                    @Html.ValidationMessageFor(m => m.Length)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Utgiven:
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.TextBoxFor(m => m.Year)
+                                    @Html.ValidationMessageFor(m => m.Year)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Genre(r):
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.TextBoxFor(m => m.Genre)
+                                    @Html.ValidationMessageFor(m => m.Genre)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sett?
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.DropDownList("HasSeen", new List<SelectListItem>
+                                    {
+                                        new SelectListItem {Text = "Ja", Value="true"},
+                                        new SelectListItem {Text = "Nej", Value="false"}
+                                    }, "Välj alternativ")
+                                    @Html.ValidationMessageFor(model => model.HasSeen)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Favorit?
+                            </td>
+                            <td>
+                                <div class="innerDiv">
+                                    @Html.DropDownList("IsFavourite", new List<SelectListItem>
+                                    {
+                                        new SelectListItem {Text = "Ja", Value="true"},
+                                        new SelectListItem {Text = "Nej", Value="false"}
+                                    }, "Välj alternativ")
+                                    @Html.ValidationMessageFor(model => model.IsFavourite)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="innerDiv">
+                                    <input id="btnAdd" type="submit" value="Update" style=" width:75px" />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    @Html.ActionLink("Tillbaka", "Index", new { id = "movieLink" })
+                </div>
+                }
+            </div>
+        </main>
+    </body>
+</html>
