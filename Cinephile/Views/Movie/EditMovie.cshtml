@@ -23,7 +23,6 @@
             <div class="movieBox">
                  @using (Html.BeginForm())
                  {
-                <div class="topDiv">
                     <table>
                         <tr>
                             <strong>Redigera film</strong>
@@ -33,10 +32,8 @@
                                 Titel:
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.TextBoxFor(m => m.Title)
                                     @Html.ValidationMessageFor(m => m.Title)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -44,10 +41,8 @@
                                 Beskrivning:
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.TextBoxFor(m => m.Description)
                                     @Html.ValidationMessageFor(m => m.Description)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -55,10 +50,8 @@
                                 Längd:
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.TextBoxFor(m => m.Length)
                                     @Html.ValidationMessageFor(m => m.Length)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -66,10 +59,8 @@
                                 Utgiven:
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.TextBoxFor(m => m.Year)
                                     @Html.ValidationMessageFor(m => m.Year)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -77,10 +68,8 @@
                                 Genre(r):
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.TextBoxFor(m => m.Genre)
                                     @Html.ValidationMessageFor(m => m.Genre)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -88,14 +77,12 @@
                                 Sett?
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.DropDownList("HasSeen", new List<SelectListItem>
                                     {
                                         new SelectListItem {Text = "Ja", Value="true"},
                                         new SelectListItem {Text = "Nej", Value="false"}
                                     }, "Välj alternativ")
                                     @Html.ValidationMessageFor(model => model.HasSeen)
-                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -103,26 +90,21 @@
                                 Favorit?
                             </td>
                             <td>
-                                <div class="innerDiv">
                                     @Html.DropDownList("IsFavourite", new List<SelectListItem>
                                     {
                                         new SelectListItem {Text = "Ja", Value="true"},
                                         new SelectListItem {Text = "Nej", Value="false"}
                                     }, "Välj alternativ")
                                     @Html.ValidationMessageFor(model => model.IsFavourite)
-                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <div class="innerDiv">
                                     <input id="btnAdd" type="submit" value="Update" style=" width:75px" />
-                                </div>
                             </td>
                         </tr>
                     </table>
                     @Html.ActionLink("Tillbaka", "Index", new { id = "movieLink" })
-                </div>
                 }
             </div>
         </main>

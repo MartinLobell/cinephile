@@ -12,22 +12,15 @@ namespace Cinephile.Controllers
 {
     public class MovieController : Controller
     {
-        // Lagrar directory till var movies.xml-filen befinner sig i en variabel.
+        // Stores the path to the XML-file in a variable.
         string xmlPath = "~/XML/movies.xml";
 
         [HttpGet]
         public ActionResult Index()
         {
-            // Skapar en filmlista att presentera filmerna från.
             List<MovieModels> movieList = new List<MovieModels>();
-
-            // Skapar ett nytt dataset att läsa in XML-filen till.
             DataSet ds = new DataSet();
             ds.ReadXml(Server.MapPath(xmlPath));
-
-            // Bildar en dataview, en översikt äver datan och hämtar den första tabellen i datasetet.
-            // Sorterar efter titel och hämtar varje rad och lägger till i Modellen, och varje modell
-            // Läggs till i filmlistan
             DataView dv;
             dv = ds.Tables[0].DefaultView;
             dv.Sort = "Title";
@@ -45,8 +38,6 @@ namespace Cinephile.Controllers
                 movieList.Add(model);
             }
 
-            // Om det finns fler än 0 filmer i filmlistan, visa dem.
-            // Annars, visa en tom view.
             if (movieList.Count > 0)
             {
                 return View(movieList);
@@ -59,26 +50,36 @@ namespace Cinephile.Controllers
         [HttpGet]
         public ActionResult EditMovie(string title)
         {
+            MovieModels mm = new MovieModels();
+
+            XDocument xDoc = XDocument.Load(Server.MapPath(xmlPath));
+            var items = (from item in xDoc.Descendants("movie") select item).ToList();
+            XElement selected = items.Where(p => p.Element("title").Value == title).FirstOrDefault();
+
+            // TO DO: Description and Genre gets returned with their XELEMENT-tags.
+            model.Title = Convert.ToString(selected.Element("title"));
+            model.Description = Convert.ToString(selected.Element("description"));
+            model.Length = int.Parse(selected.Element("length").Value);
+            model.Year = int.Parse(selected.Element("year").Value);
+            model.Genre = Convert.ToString(selected.Element("genre"));
+            model.HasSeen = bool.Parse(selected.Element("hasSeen").Value);
+            model.IsFavourite = bool.Parse(selected.Element("isFavourite").Value);
+
             return View(model);
         }
 
         [HttpPost]
         public ActionResult EditMovie(MovieModels mm)
         {
-                // Laddar XML-filen och lagrar i variabel
                 XDocument xDoc = XDocument.Load(Server.MapPath(xmlPath));
-                // Lista de element i XML-filen som är av slaget "movie" och lista dem.
                 var items = (from item in xDoc.Descendants("movie") select item).ToList();
-                //System.Diagnostics.Debug.WriteLine(items.Count);
 
-                // Leta upp den film som har samma namn som den som redigeras, ta bort den och spara den nya.
                 XElement selected = items.Where(p => p.Element("title").Value == mm.Title.ToString()).FirstOrDefault();
                 selected.Remove();
                 xDoc.Save(Server.MapPath(xmlPath));
                 xDoc.Element("movies").Add(new XElement("movie", new XElement("title", mm.Title), new XElement("description", mm.Description), new XElement("length", mm.Length), new XElement("year", mm.Year), new XElement("genre", mm.Genre), new XElement("hasSeen", mm.HasSeen), new XElement("isFavourite", mm.IsFavourite)));
                 xDoc.Save(Server.MapPath(xmlPath));
 
-                // Återvänd till start-/listsidan.
                 return RedirectToAction("Index", "Movie");
         }
     }
